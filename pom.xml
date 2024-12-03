@@ -146,13 +146,7 @@
     <repositories>
         <repository>
             <id>central</id>
-            <url>https://repo1.maven.org/maven2</url>
+            <url>https://repo.maven.apache.org/maven2</url>
         </repository>
-        
-            <repository>
-                <id>openjfx</id>
-                <url>https://maven.pkg.jetbrains.space/public/p/openjfx/maven</url>
-            </repository>
-
     </repositories>
 </project>
