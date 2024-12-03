@@ -93,23 +93,6 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven JavaFX Plugin -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>com.example.ToDoListApp</mainClass>
-                </configuration>
-            </plugin>
-
             <!-- Maven Surefire Plugin for running tests -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -117,9 +100,13 @@
                 <version>3.0.0-M7</version>
                 <configuration>
                     <argLine>-javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar</argLine>
+                    <includes>
+                        <include>**/*Test*.java</include>
+                    </includes>
                     <systemPropertyVariables>
                         <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
+                    <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
                 </configuration>
             </plugin>
 
@@ -130,10 +117,11 @@
                 <version>${allure.version}</version>
                 <configuration>
                     <resultsDirectory>${project.build.directory}/allure-results</resultsDirectory>
+                    <reportDirectory>${project.build.directory}/allure-report</reportDirectory>
                 </configuration>
                 <executions>
                     <execution>
-                        <phase>test</phase>
+                        <phase>post-integration-test</phase>
                         <goals>
                             <goal>aggregate</goal>
                         </goals>
@@ -148,10 +136,19 @@
             <id>central</id>
             <url>https://repo1.maven.apache.org/maven2</url>
         </repository>
-
         <repository>
             <id>openjfx</id>
             <url>https://openjfx.io/maven-central</url>
         </repository>
     </repositories>
+
+    <profiles>
+        <!-- Profile for testing -->
+        <profile>
+            <id>testing</id>
+            <build>
+                <defaultGoal>test</defaultGoal>
+            </build>
+        </profile>
+    </profiles>
 </project>
